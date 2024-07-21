@@ -12,7 +12,11 @@ body {
 .APP {
   display: flex;
   flex-direction: column;
-  min-height: 100vh;
+  min-height: auto;
   background-color: black;
   color: white;
+}
+.img-at-review {
+  height: 300px;
+  width: 300px;
 }

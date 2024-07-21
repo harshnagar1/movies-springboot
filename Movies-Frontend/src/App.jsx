@@ -3,7 +3,8 @@ import "./App.css";
 import axios from "axios";
 import api from "./services/AxiosConfig";
 import Layout from "./component/Layout";
-import { Route, Routes } from "react-router-dom"; // Keep this one
+import { Route, Routes } from "react-router-dom";
+import Body from "./component/bodyPage/Body"; // Keep this one
 import Home from "./component/home/Home";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
@@ -11,6 +12,8 @@ import Header from "./component/header/Header";
 import Trailer from "./component/trailer/Trailer";
 import ReviewForm from "./component/reviewsForm/ReviewForm";
 import Reviews from "./component/review/Reviews"; // Ensure Reviews component is imported
+// import Register from "./component/signup/Signup";
+// import Signup from "./component/signup/Signup";
 
 const App = () => {
   const [movies, setMovies] = useState([]);
@@ -29,11 +32,12 @@ const App = () => {
 
   const getMovieData = async (movieId) => {
     try {
-      const response = await api.get(`/api/v1/movies/${movieId}`);
+      const response = await api.get(`/api/v1/movies/imdb/${movieId}`);
       const singleMovie = response.data;
       setMovie(singleMovie);
       console.log("getMovieData called");
-      setReviews(response.data.reviews || []); // Assuming the reviews are part of the movie data
+      console.log("single movies response data review123", response.data);
+      setReviews(response.data.reviewIds || []); // Assuming the reviews are part of the movie data
     } catch (error) {
       console.log(error);
     }
@@ -43,15 +47,26 @@ const App = () => {
     getMovies();
   }, []);
 
-  console.log("app comp is called");
+  console.log("app comp is called", movies);
 
   return (
     <div className="APP">
       <Header />
+
       <Routes>
         <Route path="/" element={<Layout />}>
-          <Route path="/" element={<Home movies={movies} />} />
+          <Route
+            path="/"
+            element={
+              <>
+                <Home movies={movies} />
+                <Body movies={movies} />
+              </>
+            }
+          />
           <Route path="/Trailer/:ytTrailerId" element={<Trailer />} />
+          {/* <Route path="/Register" element={<Signup />} /> */}
+
           <Route
             path="/Reviews/:movieId"
             element={
@@ -65,77 +80,9 @@ const App = () => {
           />
         </Route>
       </Routes>
+      {/*  */}
     </div>
   );
 };
 
 export default App;
-
-// import { useState, useEffect } from "react";
-// import "./App.css";
-// import axios from "axios";
-// import api from "./services/AxiosConfig";
-// import Layout from "./component/Layout";
-// import { Route, Routes } from "react-router-dom"; // Keep this one
-// import Home from "./component/home/Home";
-// import "slick-carousel/slick/slick.css";
-// import "slick-carousel/slick/slick-theme.css";
-// import Header from "./component/header/Header";
-// import Trailer from "./component/trailer/Trailer";
-// import ReviewForm from "./component/reviewsForm/ReviewForm";
-
-// const App = () => {
-//   const [movies, setMovies] = useState();
-//   const [movie, setMovie] = useState();
-//   const [reviews, setReviews] = useState();
-
-//   const getMovies = async () => {
-//     try {
-//       const response = await api.get("api/v1/movies");
-//       console.log("response", response);
-//       setMovies(response.data);
-//     } catch (error) {
-//       console.log(error);
-//     }
-//   };
-
-//   const getMovieData = async (movieId) => {
-//     try {
-//       const response = await api.get(`/api/v1/movies/${movieId}`);
-//       const singleMovie = response.data;
-//       setMovies(singleMovie);
-//       console.log("getmovies called");
-//       setReviews;
-//     } catch (error) {}
-//   };
-
-//   useEffect(() => {
-//     getMovies();
-//   }, []);
-//   console.log("app comp is called");
-
-//   return (
-//     <div className="APP">
-//       <Header />
-//       <Routes>
-//         <Route path="/" element={<Layout />}>
-//           <Route path="/" element={<Home movies={movies} />}></Route>
-//           <Route path="/Trailer/:ytTrailerId" element={<Trailer />}></Route>
-//           <Route
-//             path="/Reviews/:movieId"
-//             element={
-//               <Reviews
-//                 getMoviesData={getMoviesData}
-//                 movie={movie}
-//                 reviews={reviews}
-//                 setReviews={setReviews}
-//               />
-//             }
-//           ></Route>
-//         </Route>
-//       </Routes>
-//     </div>
-//   );
-// };
-
-// export default App;

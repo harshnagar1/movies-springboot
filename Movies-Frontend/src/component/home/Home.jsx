@@ -10,6 +10,8 @@ const Home = () => {
     try {
       const response = await api.get("api/v1/movies");
       console.log("response", response);
+
+      console.log("home data", response.data);
       setMovies(response.data);
     } catch (error) {
       console.log(error);

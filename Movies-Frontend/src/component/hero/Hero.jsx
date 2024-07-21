@@ -10,7 +10,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { Button } from "react-bootstrap";
 
 const Hero = ({ movies, call }) => {
-  console.log("movies is calling");
+  console.log("movies is calling from home page");
   const navigate = useNavigate();
 
   function reviews(movieId) {
@@ -64,14 +64,14 @@ const Hero = ({ movies, call }) => {
                             />
                           </div>
                         </Link>
-                        <div className="movie-review-button-container">
-                          <Button
-                            variant="info"
-                            onClick={() => reviews(movie.imdbId)}
-                          >
-                            Reviews
-                          </Button>
-                        </div>
+                      </div>
+                      <div className="movie-review-button-container">
+                        <Button
+                          variant="info"
+                          onClick={() => reviews(movie.imdbId)}
+                        >
+                          REVIEWS
+                        </Button>
                       </div>
                     </div>
                   </div>

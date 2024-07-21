@@ -1,16 +1,21 @@
 package com.moviedemo.movies;
 
+import java.util.List;
+import java.util.Optional;
+
 import org.bson.types.ObjectId;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
- 
-import java.util.List;
-import java.util.Optional;
-@CrossOrigin
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+//@CrossOrigin
 @RestController
 @RequestMapping("/api/v1/movies")
 public class MovieController {
@@ -20,14 +25,14 @@ public class MovieController {
     @Autowired
     private MovieService movieService;
 
-   @GetMapping
-    public  ResponseEntity<List<Movie>> getAllMovies() {
+    @GetMapping
+    public ResponseEntity<List<Movie>> getAllMovies() {
 
         try {
             List<Movie> movies = movieService.allMovies();
-//            System.out.println(movies+"mongodata");
+            // System.out.println(movies+"mongodata");
             logger.info("Fetched movies: {}", movies);
-//            return movies;
+            // return movies;
             return new ResponseEntity<>(movies, HttpStatus.OK);
         } catch (Exception e) {
             // Handle general exceptions
@@ -40,7 +45,7 @@ public class MovieController {
     @GetMapping("/id/{id}")
     public ResponseEntity<Optional<Movie>> getSingleMovie(@PathVariable ObjectId id) {
         try {
-//            ObjectId objectId = new ObjectId();
+            // ObjectId objectId = new ObjectId();
             Optional<Movie> movie = movieService.singleMovie(id);
             if (movie.isPresent()) {
                 return new ResponseEntity<>(movie, HttpStatus.OK);

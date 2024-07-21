@@ -2,10 +2,16 @@ import React from "react";
 import { Navbar, Nav, Container, Button } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faVideoSlash } from "@fortawesome/free-solid-svg-icons";
-import { NavLink } from "react-router-dom"; // Correct import from react-router-dom
+import { NavLink, useNavigate } from "react-router-dom"; // Correct import from react-router-dom
 import { auto } from "@popperjs/core";
-
+// import Signup from "../signup/Signup";
 const Header = () => {
+  // const navigate = useNavigate();
+
+  // const handleClick = () => {
+  //   navigate(`/Register`);
+  //   console.log("this navigation log", navigate);
+
   return (
     <Navbar
       className="navbar-box"
@@ -34,6 +40,7 @@ const Header = () => {
           <Button
             className="me-2"
             variant="outline-info"
+            // onClick={()=> }
             style={{ height: "30px", padding: "0 5px" }}
           >
             LOGIN
@@ -42,6 +49,7 @@ const Header = () => {
             className="me-2"
             variant="outline-info"
             style={{ height: "30px", padding: "0 5px" }}
+            // onClick={() => handleClick(Signup)}
           >
             REGISTER
           </Button>

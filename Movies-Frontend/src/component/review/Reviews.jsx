@@ -1,31 +1,32 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { Container, Col, Row } from "react-bootstrap";
 import api from "../../services/AxiosConfig";
 import ReviewForm from "../reviewsForm/ReviewForm";
 
 const Reviews = ({ getMovieData, movie, reviews, setReviews }) => {
-  const revText = useRef();
   const params = useParams();
   const movieId = params.movieId;
+  const [temp, setTemp] = useState("");
 
   useEffect(() => {
     getMovieData(movieId);
-  }, [movieId, getMovieData]);
+  }, [movieId]);
 
   const addReview = async (e) => {
     e.preventDefault();
-    const rev = revText.current;
 
     try {
       const response = await api.post("/api/v1/reviews", {
-        reviewBody: rev.value,
+        reviewBody: temp,
         imdbId: movieId,
       });
 
-      const updatedReviews = [...reviews, { body: rev.value }];
-      rev.value = "";
+      console.log("calling response from Reviews", response);
+
+      const updatedReviews = [...reviews, { body: response.data.body }];
       setReviews(updatedReviews);
+      setTemp("");
     } catch (err) {
       console.log(err);
     }
@@ -40,16 +41,25 @@ const Reviews = ({ getMovieData, movie, reviews, setReviews }) => {
       </Row>
       <Row>
         <Col>
-          <img src={movie?.poster} alt="" />
+          <img className="img-at-review" src={movie?.poster} alt="" />
+          <Row></Row>
+          <Row style={{ margin: "5px 0", textAlign: "center" }}>
+            {movie?.title}
+          </Row>
+          <Row style={{ margin: "5px 0", textAlign: "center" }}>
+            {movie?.releaseDate}
+          </Row>
         </Col>
+
         <Col>
           <>
             <Row>
               <Col>
                 <ReviewForm
-                  handlesubmit={addReview}
-                  revText={revText}
+                  handleSubmit={addReview}
                   labelText={"Write a Review?"}
+                  temp={temp}
+                  setTemp={setTemp}
                 />
               </Col>
             </Row>
