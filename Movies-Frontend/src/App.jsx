@@ -11,7 +11,9 @@ import "slick-carousel/slick/slick-theme.css";
 import Header from "./component/header/Header";
 import Trailer from "./component/trailer/Trailer";
 import ReviewForm from "./component/reviewsForm/ReviewForm";
-import Reviews from "./component/review/Reviews"; // Ensure Reviews component is imported
+import Reviews from "./component/review/Reviews"; // Ensure Reviews
+import { ColorRing } from "react-loader-spinner";
+// component is imported
 // import Register from "./component/signup/Signup";
 // import Signup from "./component/signup/Signup";
 
@@ -48,7 +50,28 @@ const App = () => {
   }, []);
 
   console.log("app comp is called", movies);
-
+  if (movies.length <= 0) {
+    return (
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "100vh",
+        }}
+      >
+        <ColorRing
+          visible={true}
+          height="150"
+          width="150"
+          ariaLabel="color-ring-loading"
+          wrapperStyle={{}}
+          wrapperClass="color-ring-wrapper"
+          colors={["#abbd81", "#849b87"]}
+        />
+      </div>
+    );
+  }
   return (
     <div className="APP">
       <Header />
